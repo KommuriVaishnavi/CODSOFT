@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Calculator</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .calculator {
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: rgb(10, 10, 10);
+        }
+        input, button {
+            margin: 5px;
+            padding: 10px;
+        }
+        button {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <input type="text" id="display" readonly>
+        <br>
+        <button onclick="appendNumber('1')">1</button>
+        <button onclick="appendNumber('2')">2</button>
+        <button onclick="appendNumber('3')">3</button>
+        <button onclick="setOperation('+')">+</button>
+        <br>
+        <button onclick="appendNumber('4')">4</button>
+        <button onclick="appendNumber('5')">5</button>
+        <button onclick="appendNumber('6')">6</button>
+        <button onclick="setOperation('-')">-</button>
+        <br>
+        <button onclick="appendNumber('7')">7</button>
+        <button onclick="appendNumber('8')">8</button>
+        <button onclick="appendNumber('9')">9</button>
+        <button onclick="setOperation('*')">*</button>
+        <br>
+        <button onclick="appendNumber('0')">0</button>
+        <button onclick="clearDisplay()">C</button>
+        <button onclick="calculateResult()">=</button>
+        <button onclick="setOperation('/')">/</button>
+    </div>
+
+    <script> let display = document.getElementById('display');
+    let currentOperation = '';
+    let operand1 = null;
+    let operand2 = null;
+    
+    function appendNumber(number) {
+        display.value += number;
+    }
+    
+    function setOperation(operation) {
+        if (display.value !== '') {
+            operand1 = parseFloat(display.value);
+            currentOperation = operation;
+            display.value = '';
+        }
+    }
+    
+    function clearDisplay() {
+        display.value = '';
+        operand1 = null;
+        operand2 = null;
+        currentOperation = '';
+    }
+    
+    function calculateResult() {
+        if (display.value !== '' && operand1 !== null && currentOperation) {
+            operand2 = parseFloat(display.value);
+            let result = 0;
+    
+            switch (currentOperation) {
+                case '+':
+                    result = operand1 + operand2;
+                    break;
+                case '-':
+                    result = operand1 - operand2;
+                    break;
+                case '*':
+                    result = operand1 * operand2;
+                    break;
+                case '/':
+                    if (operand2 === 0) {
+                        alert("Cannot divide by zero");
+                        clearDisplay();
+                        return;
+                    }
+                    result = operand1 / operand2;
+                    break;
+            }
+    
+            display.value = result;
+            operand1 = result;
+            operand2 = null;
+            currentOperation = '';
+        }
+    }
+    </script>
+</body>
+</html>
